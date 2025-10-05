@@ -1,2 +1,27 @@
-# -Redis-Learning-Redis-from-Scratch-
-个人学习 Redis 过程中整理的博客与笔记仓库，开源分享供开发者共同学习参考。​ A repository of blogs and notes compiled during my personal Redis learning journey, open-sourced to share with developers for mutual learning and reference.
+# Redis-Learning-Blogs
+
+## 仓库简介
+
+个人学习 Redis 过程中整理的博客与笔记仓库，开源分享供开发者共同学习参考。
+
+## 仓库内容
+
+✅ 覆盖 Redis 核心知识点：基础命令、数据结构（String/Hash/List 等）、持久化机制（RDB/AOF）、缓存策略（过期淘汰 / 穿透 / 击穿 / 雪崩解决方案）
+
+✅ 包含进阶实践：集群方案（主从 / 哨兵 / Cluster）、性能优化、分布式锁实现
+
+✅ 附带实操案例：基于 Redis 的小 demo、问题排查记录、学习踩坑总结
+
+## 适用人群
+
+
+
+* Redis 入门开发者（快速搭建知识框架）
+
+* 需要深化 Redis 原理的工程师（补充实战细节）
+
+* 寻找开源学习资料的技术学习者
+
+## 开源说明
+
+本仓库持续更新，欢迎 Star/Fork 收藏学习，也期待大家提交 PR 补充更多 Redis 知识点或实战经验，共同打造高质量的 Redis 学习资源库！
