@@ -1,6 +1,8 @@
 # 从零起步学习 Redis || 第一章：认识与配置 Redis
 
 文章标签：#java #后端 #redis #缓存 #数据库
+<img width="793" height="448" alt="image" src="https://github.com/user-attachments/assets/27d246d9-591c-4de0-98c7-fd43f43dadff" />
+
 
 ## 前言：解锁 Java 后端性能的密钥 ——Redis 入门指南
 
@@ -195,7 +197,7 @@ Redis 是一个超快、支持多种高级数据结构、可配置持久化、�
 
 * 方法 2 (命令行)：打开命令提示符，导航到 Redis 安装目录 (如 C:\Program Files\Redis)，运行 `redis-server.exe redis.windows.conf`。
 
-1. **连接客户端**：
+4. **连接客户端**：
 
 * 打开新的命令提示符。
 
@@ -205,41 +207,21 @@ Redis 是一个超快、支持多种高级数据结构、可配置持久化、�
 
 ### Redis 安装目录文件列表 (示例)
 
+#### 运行Redis(根据自己情况适时调整)
+
+<img width="752" height="565" alt="image" src="https://github.com/user-attachments/assets/4d719402-fb18-483d-b04d-4a5aa55c5dbf" />
+
+#### 然后回弹出页面
+
+<img width="1106" height="486" alt="image" src="https://github.com/user-attachments/assets/841f54aa-fc56-4498-b869-460f8d8c171d" />
+
+#### 在客户端即可打开页面
+
+<img width="1104" height="409" alt="image" src="https://github.com/user-attachments/assets/d0ed63fb-795f-4b29-84a2-8474f5f4a91b" />
 
 
-* Another Redis Desktop Manager：2025/5/27 10:21，文件夹
 
-* dump.rdb：2025/9/23 21:48，RDB 文件，11KB
-
-* EventLog.dll：2016/7/1 16:27，应用程序扩展，1KB
-
-* Redis on Windows Release Notes.docx：2016/7/1 16:07，Microsoft Word 文档，13 KB
-
-* Redis on Windows.docx：2016/7/1 16:07，Microsoft Word 文档，17KB
-
-* redis.windows.conf：2025/5/27 10:13，CONF 文件，48KB
-
-* redis.windows-service.conf：2016/7/1 16:07，CONF 文件，48KB
-
-* redis-benchmark.exe：2016/7/1 16:28，应用程序，400KB
-
-* redis-benchmark.pdb：2016/7/1 16:28，Program Debug D...，4,268KB
-
-* redis-check-aof.exe：2016/7/1 16:28，应用程序，251KB
-
-* redis-check-aof.pdb：2016/7/1 16:28，Program Debug D...，3,436 KB
-
-* redis-cli.exe：2016/7/1 16:28，应用程序，488KB
-
-* redis-cli.pdb：2016/7/1 16:28，Program Debug D..，4,420KB
-
-* redis-server.exe：2016/7/1 16:28，应用程序，1,628KB
-
-* redis-server.pdb：2016/7/1 16:28，Program Debug D..，6,916KB
-
-* Windows Service Documentation.docx：2016/7/1 9:17，Microsoft Word 文档，14KB
-
-### Redis 服务启动日志 (示例)
+##### Redis 服务启动日志 (示例)
 
 
 
@@ -263,7 +245,7 @@ http://redis.io
 \[23996] 24 Sep 12:07:11.118 \* The server is now ready to accept connections on port 6379
 ```
 
-### Redis 客户端工具 (Another Redis Desktop Manager)
+#### Redis 客户端工具 (Another Redis Desktop Manager)
 
 启动客户端后，可新建连接（默认地址 [localhost](https://localhost)），查看服务器状态：
 
@@ -297,106 +279,68 @@ Spring Boot 2.x+ 默认集成 Lettuce。
 
 
 
-```
-\<dependency>
-
-&#x20;   \<groupId>org.springframework.boot\</groupId>
-
-&#x20;   \<artifactId>spring-boot-starter-data-redis\</artifactId>
-
-\</dependency>
-
-\<!-- Lettuce 核心依赖会自动引入 -->
-```
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+    <!-- Lettuce 核心依赖会自动引入 -->
 
 #### 2. 配置 Redis 连接 (application.properties 或 application.yml)
 
 
 
-```
-\# 地址和端口 (默认 6379)
-
-spring.redis.host=localhost
-
-spring.redis.port=6379
-
-\# 如果设置了密码 (默认空)
-
-spring.redis.password=yourpassword # 通常你在安装时还没设密码，可以省略
-
-\# 连接池配置根据需要调整
-
-spring.redis.lettuce.pool.max-active=8
-
-spring.redis.lettuce.pool.max-idle=8
-
-spring.redis.lettuce.pool.min-idle=0
-```
+    # 地址和端口 (默认 6379)
+    spring.redis.host=localhost
+    spring.redis.port=6379
+    # 如果设置了密码 (默认空)
+    spring.redis.password=yourpassword # 通常你在安装时还没设密码，可以省略
+    # 连接池配置根据需要调整
+    spring.redis.lettuce.pool.max-active=8
+    spring.redis.lettuce.pool.max-idle=8
+    spring.redis.lettuce.pool.min-idle=0
 
 #### 3. 使用 RedisTemplate 或 StringRedisTemplate (Spring 封装)
 
 
 
-```
-import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.data.redis.core.StringRedisTemplate;
+    import org.springframework.stereotype.Component;
+ 
+    @Component
+    public class SimpleRedisExample {
+ 
+        @Autowired
+        private StringRedisTemplate stringRedisTemplate; // 专门处理 String 类型键值对（key-value都是字符串）
+ 
+        public void doSomething() {
+            // 存储 String
+            stringRedisTemplate.opsForValue().set("greeting", "Hello from Spring Redis!");
+ 
+            // 读取 String
+            String value = stringRedisTemplate.opsForValue().get("greeting");
+            System.out.println(value); // 输出: Hello from Spring Redis!
+ 
+            // 存储 Hash (模拟一个对象 User)
+            stringRedisTemplate.opsForHash().put("user:1000", "name", "Alice");
+            stringRedisTemplate.opsForHash().put("user:1000", "email", "alice@example.com");
+ 
+            // 获取 Hash 字段
+            String name = (String) stringRedisTemplate.opsForHash().get("user:1000", "name");
+            System.out.println(name); // 输出: Alice
+ 
+            // 操作 List
+            stringRedisTemplate.opsForList().leftPush("mylist", "item1");
+            stringRedisTemplate.opsForList().leftPush("mylist", "item2");
+            String firstItem = stringRedisTemplate.opsForList().index("mylist", 0);
+            System.out.println(firstItem); // 输出: item2 (因为是左推)
+ 
+            // 设置过期时间 (秒)
+            stringRedisTemplate.expire("greeting", 60, TimeUnit.SECONDS);
+        }
+    }
 
-import org.springframework.data.redis.core.StringRedisTemplate;
-
-import org.springframework.stereotype.Component;
-
-import java.util.concurrent.TimeUnit;
-
-@Component
-
-public class SimpleRedisExample {
-
-&#x20;   @Autowired
-
-&#x20;   private StringRedisTemplate stringRedisTemplate; // 专门处理 String 类型键值对（key-value都是字符串）
-
-&#x20;   public void doSomething() {
-
-&#x20;       // 存储 String
-
-&#x20;       stringRedisTemplate.opsForValue().set("greeting", "Hello from Spring Redis!");
-
-&#x20;       // 读取 String
-
-&#x20;       String value = stringRedisTemplate.opsForValue().get("greeting");
-
-&#x20;       System.out.println(value); // 输出: Hello from Spring Redis!
-
-&#x20;       // 存储 Hash (模拟一个对象 User)
-
-&#x20;       stringRedisTemplate.opsForHash().put("user:1000", "name", "Alice");
-
-&#x20;       stringRedisTemplate.opsForHash().put("user:1000", "email", "alice@example.com");
-
-&#x20;       // 获取 Hash 字段
-
-&#x20;       String name = (String) stringRedisTemplate.opsForHash().get("user:1000", "name");
-
-&#x20;       System.out.println(name); // 输出: Alice
-
-&#x20;       // 操作 List
-
-&#x20;       stringRedisTemplate.opsForList().leftPush("mylist", "item1");
-
-&#x20;       stringRedisTemplate.opsForList().leftPush("mylist", "item2");
-
-&#x20;       String firstItem = stringRedisTemplate.opsForList().index("mylist", 0);
-
-&#x20;       System.out.println(firstItem); // 输出: item2 (因为是左推)
-
-&#x20;       // 设置过期时间 (秒)
-
-&#x20;       stringRedisTemplate.expire("greeting", 60, TimeUnit.SECONDS);
-
-&#x20;   }
-
-}
-```
-
+    
 ## 五、重要的安全提示 (本地开发也请注意)
 
 
@@ -412,5 +356,3 @@ public class SimpleRedisExample {
 * 修改默认端口：修改 `port 6379` 为一个不常见的端口。
 
 * 禁用高危命令：使用 `rename-command CONFIG ""` 和 `rename-command FLUSHALL ""` 等禁用或重命名危险命令。
-
-> （注：文档部分内容可能由 AI 生成）
