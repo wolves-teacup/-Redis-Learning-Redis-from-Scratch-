@@ -1,4 +1,6 @@
 # 从零起步学习Redis || 第四章:Cache Aside Pattern(旁路缓存模式)以及优化策略
+<img width="1079" height="602" alt="image" src="https://github.com/user-attachments/assets/3c162656-88c9-4f00-bc77-7987b69a1bb9" />
+
 ## 前言
 今天继续我们的Redis学习，主要讲解一下Cache Aside Pattern（旁路缓存模式）
 
@@ -31,6 +33,8 @@ Cache Aside Pattern，又称 Lazy Loading（懒加载）模式，是一种典型
 - 目标状态：数据库 `X=20`，缓存 `X=20`（或缓存无 X，下次读时回填）。
 
 ### 错误顺序剖析：先删缓存，再更新数据库（`删除Cache -> 更新DB`）
+<img width="1141" height="728" alt="image" src="https://github.com/user-attachments/assets/c0e34e90-3501-434b-92de-f31fc0927c5d" />
+
 #### 执行流程
 | 步骤 | 操作主体 | 操作内容 | 结果 |
 |------|----------|----------|------|
@@ -51,6 +55,8 @@ Cache Aside Pattern，又称 Lazy Loading（懒加载）模式，是一种典型
 - 一旦旧值被写入缓存，会长期存在，导致缓存与数据库数据不一致。
 
 ### 正确顺序剖析：先更新数据库，再删除缓存（`更新DB -> 删除Cache`）
+<img width="1076" height="1265" alt="image" src="https://github.com/user-attachments/assets/e7875c43-77e8-471e-b8e2-ca351a6f76d7" />
+
 #### 执行流程
 | 步骤 | 操作主体 | 操作内容 | 结果 |
 |------|----------|----------|------|
